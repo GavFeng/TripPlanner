@@ -1,0 +1,8 @@
+crewai
+crewai-tools
+groq
+fastapi
+uvicorn
+python-dotenv
+pymongo
+httpx

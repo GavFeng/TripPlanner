@@ -1,0 +1,7 @@
+{
+  "origin": "SEA",
+  "cities": ["Tokyo", "Osaka"],
+  "days": 7,
+  "budget": 3000,
+  "returnToOrigin": true
+}

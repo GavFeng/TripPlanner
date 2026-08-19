@@ -1,0 +1,78 @@
+{
+  "flights": [
+    {
+      "id": "FL001",
+      "airline": "Japan Air Mock",
+      "origin": "SEA",
+      "destination": "HND",
+      "price": 850,
+      "stops": 0,
+      "durationHours": 10.5
+    },
+    {
+      "id": "FL002",
+      "airline": "Pacific Mock Airlines",
+      "origin": "SEA",
+      "destination": "HND",
+      "price": 720,
+      "stops": 1,
+      "durationHours": 13.5
+    },
+    {
+      "id": "FL003",
+      "airline": "Tokyo Express Mock",
+      "origin": "SEA",
+      "destination": "HND",
+      "price": 950,
+      "stops": 0,
+      "durationHours": 10.25
+    },
+
+    {
+      "id": "FL004",
+      "airline": "Japan Air Mock",
+      "origin": "HND",
+      "destination": "SEA",
+      "price": 880,
+      "stops": 0,
+      "durationHours": 10.75
+    },
+    {
+      "id": "FL005",
+      "airline": "Pacific Mock Airlines",
+      "origin": "HND",
+      "destination": "SEA",
+      "price": 690,
+      "stops": 1,
+      "durationHours": 13.25
+    },
+    {
+      "id": "FL006",
+      "airline": "Tokyo Express Mock",
+      "origin": "HND",
+      "destination": "SEA",
+      "price": 980,
+      "stops": 0,
+      "durationHours": 10.5
+    },
+
+    {
+      "id": "FL007",
+      "airline": "Pacific Japan Mock",
+      "origin": "KIX",
+      "destination": "SEA",
+      "price": 760,
+      "stops": 1,
+      "durationHours": 12.75
+    },
+    {
+      "id": "FL008",
+      "airline": "Osaka Air Mock",
+      "origin": "KIX",
+      "destination": "SEA",
+      "price": 920,
+      "stops": 0,
+      "durationHours": 10.9
+    }
+  ]
+}

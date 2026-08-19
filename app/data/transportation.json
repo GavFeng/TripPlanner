@@ -1,0 +1,263 @@
+{
+  "routes": [
+    {
+      "id": "TR-TYO-KYO-001",
+      "from": "Tokyo",
+      "to": "Kyoto",
+      "options": [
+        {
+          "type": "train",
+          "name": "Tokaido Shinkansen",
+          "cost": 100,
+          "durationHours": 2.25,
+          "direct": true
+        },
+        {
+          "type": "flight",
+          "name": "Tokyo to Osaka Flight",
+          "cost": 80,
+          "durationHours": 1.25,
+          "direct": true
+        }
+      ]
+    },
+    {
+      "id": "TR-KYO-TYO-001",
+      "from": "Kyoto",
+      "to": "Tokyo",
+      "options": [
+        {
+          "type": "train",
+          "name": "Tokaido Shinkansen",
+          "cost": 100,
+          "durationHours": 2.25,
+          "direct": true
+        },
+        {
+          "type": "flight",
+          "name": "Osaka to Tokyo Flight",
+          "cost": 80,
+          "durationHours": 1.25,
+          "direct": true
+        }
+      ]
+    },
+
+    {
+      "id": "TR-TYO-OSA-001",
+      "from": "Tokyo",
+      "to": "Osaka",
+      "options": [
+        {
+          "type": "train",
+          "name": "Tokaido Shinkansen",
+          "cost": 100,
+          "durationHours": 2.5,
+          "direct": true
+        },
+        {
+          "type": "flight",
+          "name": "Tokyo to Osaka Flight",
+          "cost": 75,
+          "durationHours": 1.25,
+          "direct": true
+        }
+      ]
+    },
+    {
+      "id": "TR-OSA-TYO-001",
+      "from": "Osaka",
+      "to": "Tokyo",
+      "options": [
+        {
+          "type": "train",
+          "name": "Tokaido Shinkansen",
+          "cost": 100,
+          "durationHours": 2.5,
+          "direct": true
+        },
+        {
+          "type": "flight",
+          "name": "Osaka to Tokyo Flight",
+          "cost": 75,
+          "durationHours": 1.25,
+          "direct": true
+        }
+      ]
+    },
+
+    {
+      "id": "TR-KYO-OSA-001",
+      "from": "Kyoto",
+      "to": "Osaka",
+      "options": [
+        {
+          "type": "train",
+          "name": "JR Special Rapid",
+          "cost": 15,
+          "durationHours": 0.75,
+          "direct": true
+        }
+      ]
+    },
+    {
+      "id": "TR-OSA-KYO-001",
+      "from": "Osaka",
+      "to": "Kyoto",
+      "options": [
+        {
+          "type": "train",
+          "name": "JR Special Rapid",
+          "cost": 15,
+          "durationHours": 0.75,
+          "direct": true
+        }
+      ]
+    },
+
+    {
+      "id": "TR-TYO-NAR-001",
+      "from": "Tokyo",
+      "to": "Nara",
+      "options": [
+        {
+          "type": "train",
+          "name": "Shinkansen + Local Train",
+          "cost": 110,
+          "durationHours": 3.0,
+          "direct": false
+        }
+      ]
+    },
+    {
+      "id": "TR-NAR-TYO-001",
+      "from": "Nara",
+      "to": "Tokyo",
+      "options": [
+        {
+          "type": "train",
+          "name": "Local Train + Shinkansen",
+          "cost": 110,
+          "durationHours": 3.0,
+          "direct": false
+        }
+      ]
+    },
+
+    {
+      "id": "TR-OSA-NAR-001",
+      "from": "Osaka",
+      "to": "Nara",
+      "options": [
+        {
+          "type": "train",
+          "name": "JR Yamatoji Line",
+          "cost": 15,
+          "durationHours": 0.75,
+          "direct": true
+        }
+      ]
+    },
+    {
+      "id": "TR-NAR-OSA-001",
+      "from": "Nara",
+      "to": "Osaka",
+      "options": [
+        {
+          "type": "train",
+          "name": "JR Yamatoji Line",
+          "cost": 15,
+          "durationHours": 0.75,
+          "direct": true
+        }
+      ]
+    },
+
+    {
+      "id": "TR-TYO-HIR-001",
+      "from": "Tokyo",
+      "to": "Hiroshima",
+      "options": [
+        {
+          "type": "train",
+          "name": "Tokaido/Sanyo Shinkansen",
+          "cost": 140,
+          "durationHours": 4.0,
+          "direct": true
+        }
+      ]
+    },
+    {
+      "id": "TR-HIR-TYO-001",
+      "from": "Hiroshima",
+      "to": "Tokyo",
+      "options": [
+        {
+          "type": "train",
+          "name": "Sanyo/Tokaido Shinkansen",
+          "cost": 140,
+          "durationHours": 4.0,
+          "direct": true
+        }
+      ]
+    },
+
+    {
+      "id": "TR-KYO-HIR-001",
+      "from": "Kyoto",
+      "to": "Hiroshima",
+      "options": [
+        {
+          "type": "train",
+          "name": "Sanyo Shinkansen",
+          "cost": 100,
+          "durationHours": 1.75,
+          "direct": true
+        }
+      ]
+    },
+    {
+      "id": "TR-HIR-KYO-001",
+      "from": "Hiroshima",
+      "to": "Kyoto",
+      "options": [
+        {
+          "type": "train",
+          "name": "Sanyo Shinkansen",
+          "cost": 100,
+          "durationHours": 1.75,
+          "direct": true
+        }
+      ]
+    },
+
+    {
+      "id": "TR-OSA-HIR-001",
+      "from": "Osaka",
+      "to": "Hiroshima",
+      "options": [
+        {
+          "type": "train",
+          "name": "Sanyo Shinkansen",
+          "cost": 90,
+          "durationHours": 1.5,
+          "direct": true
+        }
+      ]
+    },
+    {
+      "id": "TR-HIR-OSA-001",
+      "from": "Hiroshima",
+      "to": "Osaka",
+      "options": [
+        {
+          "type": "train",
+          "name": "Sanyo Shinkansen",
+          "cost": 90,
+          "durationHours": 1.5,
+          "direct": true
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,175 @@
+{
+  "Tokyo": [
+    {
+      "id": "HT-TYO-001",
+      "name": "Tokyo Central Hotel",
+      "rating": 4.5,
+      "pricePerNight": 180,
+      "area": "Shinjuku",
+      "nearTransit": true,
+      "amenities": ["wifi", "breakfast"]
+    },
+    {
+      "id": "HT-TYO-002",
+      "name": "Shibuya Stay Hotel",
+      "rating": 4.7,
+      "pricePerNight": 210,
+      "area": "Shibuya",
+      "nearTransit": true,
+      "amenities": ["wifi", "gym", "breakfast"]
+    },
+    {
+      "id": "HT-TYO-003",
+      "name": "Akihabara Business Hotel",
+      "rating": 4.2,
+      "pricePerNight": 130,
+      "area": "Akihabara",
+      "nearTransit": true,
+      "amenities": ["wifi"]
+    }
+  ],
+
+  "Kyoto": [
+    {
+      "id": "HT-KYO-001",
+      "name": "Kyoto Garden Hotel",
+      "rating": 4.6,
+      "pricePerNight": 160,
+      "area": "Gion",
+      "nearTransit": true,
+      "amenities": ["wifi", "breakfast", "garden"]
+    },
+    {
+      "id": "HT-KYO-002",
+      "name": "Kyoto Station Inn",
+      "rating": 4.3,
+      "pricePerNight": 120,
+      "area": "Kyoto Station",
+      "nearTransit": true,
+      "amenities": ["wifi", "laundry"]
+    },
+    {
+      "id": "HT-KYO-003",
+      "name": "Arashiyama Riverside Hotel",
+      "rating": 4.8,
+      "pricePerNight": 230,
+      "area": "Arashiyama",
+      "nearTransit": false,
+      "amenities": ["wifi", "breakfast", "spa"]
+    }
+  ],
+
+  "Osaka": [
+    {
+      "id": "HT-OSA-001",
+      "name": "Osaka Namba Hotel",
+      "rating": 4.5,
+      "pricePerNight": 145,
+      "area": "Namba",
+      "nearTransit": true,
+      "amenities": ["wifi", "breakfast"]
+    },
+    {
+      "id": "HT-OSA-002",
+      "name": "Umeda City Hotel",
+      "rating": 4.4,
+      "pricePerNight": 135,
+      "area": "Umeda",
+      "nearTransit": true,
+      "amenities": ["wifi", "gym"]
+    },
+    {
+      "id": "HT-OSA-003",
+      "name": "Osaka Castle Hotel",
+      "rating": 4.7,
+      "pricePerNight": 190,
+      "area": "Osaka Castle",
+      "nearTransit": true,
+      "amenities": ["wifi", "breakfast", "restaurant"]
+    }
+  ],
+
+  "Hiroshima": [
+    {
+      "id": "HT-HIR-001",
+      "name": "Hiroshima Peace Hotel",
+      "rating": 4.4,
+      "pricePerNight": 110,
+      "area": "Hondori",
+      "nearTransit": true,
+      "amenities": ["wifi", "breakfast"]
+    },
+    {
+      "id": "HT-HIR-002",
+      "name": "Hiroshima Station Hotel",
+      "rating": 4.2,
+      "pricePerNight": 95,
+      "area": "Hiroshima Station",
+      "nearTransit": true,
+      "amenities": ["wifi", "laundry"]
+    }
+  ],
+
+  "Sapporo": [
+    {
+      "id": "HT-SAP-001",
+      "name": "Sapporo Snow Hotel",
+      "rating": 4.6,
+      "pricePerNight": 150,
+      "area": "Odori",
+      "nearTransit": true,
+      "amenities": ["wifi", "breakfast", "spa"]
+    },
+    {
+      "id": "HT-SAP-002",
+      "name": "Sapporo Station Inn",
+      "rating": 4.3,
+      "pricePerNight": 115,
+      "area": "Sapporo Station",
+      "nearTransit": true,
+      "amenities": ["wifi", "laundry"]
+    }
+  ],
+
+  "Fukuoka": [
+    {
+      "id": "HT-FUK-001",
+      "name": "Fukuoka Canal Hotel",
+      "rating": 4.5,
+      "pricePerNight": 125,
+      "area": "Hakata",
+      "nearTransit": true,
+      "amenities": ["wifi", "breakfast"]
+    },
+    {
+      "id": "HT-FUK-002",
+      "name": "Tenjin City Hotel",
+      "rating": 4.4,
+      "pricePerNight": 115,
+      "area": "Tenjin",
+      "nearTransit": true,
+      "amenities": ["wifi", "gym"]
+    }
+  ],
+
+  "Nara": [
+    {
+      "id": "HT-NAR-001",
+      "name": "Nara Park Hotel",
+      "rating": 4.7,
+      "pricePerNight": 140,
+      "area": "Nara Park",
+      "nearTransit": false,
+      "amenities": ["wifi", "breakfast", "garden"]
+    },
+    {
+      "id": "HT-NAR-002",
+      "name": "Nara Station Inn",
+      "rating": 4.2,
+      "pricePerNight": 90,
+      "area": "Nara Station",
+      "nearTransit": true,
+      "amenities": ["wifi"]
+    }
+  ]
+}

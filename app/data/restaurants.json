@@ -1,0 +1,14 @@
+{
+  "Tokyo": [
+    {
+      "id": "REST001",
+      "name": "Tokyo Ramen House",
+      "cuisine": "Japanese",
+      "priceLevel": 2,
+      "area": "Shinjuku",
+      "specialties": [
+        "ramen"
+      ]
+    }
+  ]
+}

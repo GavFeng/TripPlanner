@@ -1,0 +1,41 @@
+{
+  "Tokyo": {
+    "region": "Kanto",
+    "description": "Large metropolitan city...",
+    "budgetLevel": "high",
+    "recommendedDays": 4,
+    "interests": [
+      "food",
+      "shopping",
+      "gaming",
+      "culture",
+      "nightlife"
+    ]
+  },
+
+  "Kyoto": {
+    "region": "Kansai",
+    "description": "Historic city...",
+    "budgetLevel": "moderate",
+    "recommendedDays": 2,
+    "interests": [
+      "culture",
+      "history",
+      "temples",
+      "food"
+    ]
+  },
+
+  "Osaka": {
+    "region": "Kansai",
+    "description": "Food and entertainment...",
+    "budgetLevel": "moderate",
+    "recommendedDays": 3,
+    "interests": [
+      "food",
+      "nightlife",
+      "shopping",
+      "entertainment"
+    ]
+  }
+}

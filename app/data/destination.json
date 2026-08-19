@@ -1,0 +1,222 @@
+{
+  "Tokyo": [
+    {
+      "id": "DST-TYO-001",
+      "name": "Shibuya Crossing",
+      "category": "culture",
+      "estimatedCost": 0,
+      "durationHours": 1,
+      "area": "Shibuya"
+    },
+    {
+      "id": "DST-TYO-002",
+      "name": "Akihabara",
+      "category": "gaming",
+      "estimatedCost": 50,
+      "durationHours": 3,
+      "area": "Akihabara"
+    },
+    {
+      "id": "DST-TYO-003",
+      "name": "Senso-ji Temple",
+      "category": "culture",
+      "estimatedCost": 0,
+      "durationHours": 2,
+      "area": "Asakusa"
+    },
+    {
+      "id": "DST-TYO-004",
+      "name": "Tokyo Skytree",
+      "category": "sightseeing",
+      "estimatedCost": 30,
+      "durationHours": 2,
+      "area": "Asakusa"
+    },
+    {
+      "id": "DST-TYO-005",
+      "name": "Meiji Shrine",
+      "category": "culture",
+      "estimatedCost": 0,
+      "durationHours": 1.5,
+      "area": "Shibuya"
+    }
+  ],
+
+  "Kyoto": [
+    {
+      "id": "DST-KYO-001",
+      "name": "Fushimi Inari Shrine",
+      "category": "culture",
+      "estimatedCost": 0,
+      "durationHours": 3,
+      "area": "Fushimi"
+    },
+    {
+      "id": "DST-KYO-002",
+      "name": "Kiyomizu-dera",
+      "category": "culture",
+      "estimatedCost": 5,
+      "durationHours": 2,
+      "area": "Higashiyama"
+    },
+    {
+      "id": "DST-KYO-003",
+      "name": "Arashiyama Bamboo Grove",
+      "category": "nature",
+      "estimatedCost": 0,
+      "durationHours": 2,
+      "area": "Arashiyama"
+    },
+    {
+      "id": "DST-KYO-004",
+      "name": "Gion District",
+      "category": "culture",
+      "estimatedCost": 0,
+      "durationHours": 2,
+      "area": "Gion"
+    }
+  ],
+
+  "Osaka": [
+    {
+      "id": "DST-OSA-001",
+      "name": "Dotonbori",
+      "category": "food",
+      "estimatedCost": 40,
+      "durationHours": 2,
+      "area": "Namba"
+    },
+    {
+      "id": "DST-OSA-002",
+      "name": "Osaka Castle",
+      "category": "culture",
+      "estimatedCost": 10,
+      "durationHours": 2,
+      "area": "Osaka Castle"
+    },
+    {
+      "id": "DST-OSA-003",
+      "name": "Universal Studios Japan",
+      "category": "entertainment",
+      "estimatedCost": 90,
+      "durationHours": 8,
+      "area": "Konohana"
+    },
+    {
+      "id": "DST-OSA-004",
+      "name": "Kuromon Market",
+      "category": "food",
+      "estimatedCost": 30,
+      "durationHours": 2,
+      "area": "Namba"
+    }
+  ],
+
+  "Hiroshima": [
+    {
+      "id": "DST-HIR-001",
+      "name": "Hiroshima Peace Memorial Park",
+      "category": "history",
+      "estimatedCost": 0,
+      "durationHours": 3,
+      "area": "Hondori"
+    },
+    {
+      "id": "DST-HIR-002",
+      "name": "Atomic Bomb Dome",
+      "category": "history",
+      "estimatedCost": 0,
+      "durationHours": 1,
+      "area": "Hondori"
+    },
+    {
+      "id": "DST-HIR-003",
+      "name": "Miyajima",
+      "category": "nature",
+      "estimatedCost": 20,
+      "durationHours": 5,
+      "area": "Miyajima"
+    }
+  ],
+
+  "Sapporo": [
+    {
+      "id": "DST-SAP-001",
+      "name": "Odori Park",
+      "category": "nature",
+      "estimatedCost": 0,
+      "durationHours": 2,
+      "area": "Odori"
+    },
+    {
+      "id": "DST-SAP-002",
+      "name": "Sapporo Beer Museum",
+      "category": "culture",
+      "estimatedCost": 10,
+      "durationHours": 2,
+      "area": "Higashi"
+    },
+    {
+      "id": "DST-SAP-003",
+      "name": "Mount Moiwa",
+      "category": "nature",
+      "estimatedCost": 25,
+      "durationHours": 4,
+      "area": "Moiwa"
+    }
+  ],
+
+  "Fukuoka": [
+    {
+      "id": "DST-FUK-001",
+      "name": "Canal City Hakata",
+      "category": "shopping",
+      "estimatedCost": 30,
+      "durationHours": 3,
+      "area": "Hakata"
+    },
+    {
+      "id": "DST-FUK-002",
+      "name": "Ohori Park",
+      "category": "nature",
+      "estimatedCost": 0,
+      "durationHours": 2,
+      "area": "Ohori"
+    },
+    {
+      "id": "DST-FUK-003",
+      "name": "Fukuoka Tower",
+      "category": "sightseeing",
+      "estimatedCost": 10,
+      "durationHours": 2,
+      "area": "Momochi"
+    }
+  ],
+
+  "Nara": [
+    {
+      "id": "DST-NAR-001",
+      "name": "Nara Park",
+      "category": "nature",
+      "estimatedCost": 0,
+      "durationHours": 3,
+      "area": "Nara Park"
+    },
+    {
+      "id": "DST-NAR-002",
+      "name": "Todai-ji Temple",
+      "category": "culture",
+      "estimatedCost": 8,
+      "durationHours": 2,
+      "area": "Nara Park"
+    },
+    {
+      "id": "DST-NAR-003",
+      "name": "Kasuga Taisha",
+      "category": "culture",
+      "estimatedCost": 5,
+      "durationHours": 2,
+      "area": "Nara Park"
+    }
+  ]
+}
