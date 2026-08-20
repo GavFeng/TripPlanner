@@ -1,4 +1,5 @@
 from typing import List, Dict, Any
+import json
 
 
 class TransportationCalculator:
@@ -12,9 +13,6 @@ class TransportationCalculator:
         """
         Calculate transportation cost and duration
         for every leg of a route.
-
-        The transportation service is expected to provide
-        the available options between two cities.
         """
 
         total_cost = 0
@@ -40,9 +38,32 @@ class TransportationCalculator:
                     ),
                 }
 
-            # For now, choose cheapest option.
+            # ==========================================
+            # Sanitize and validate option items
+            # ==========================================
+            valid_options = []
+            for opt in options:
+                if isinstance(opt, str):
+                    try:
+                        opt = json.loads(opt)
+                    except json.JSONDecodeError:
+                        continue
+                if isinstance(opt, dict) and "cost" in opt:
+                    valid_options.append(opt)
+
+            if not valid_options:
+                return {
+                    "valid": False,
+                    "route": route,
+                    "reason": (
+                        f"No valid transportation options found from "
+                        f"{origin} to {destination}."
+                    ),
+                }
+
+            # Choose cheapest option from valid dictionaries
             best_option = min(
-                options,
+                valid_options,
                 key=lambda option: option["cost"]
             )
 

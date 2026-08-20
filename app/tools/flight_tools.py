@@ -29,9 +29,6 @@ def _resolve_origin_airport(
 def _get_japan_airports() -> List[Dict[str, Any]]:
     """
     Get all supported airports in Japan.
-
-    These airports are used as possible international
-    entry and exit points for the Japan trip.
     """
 
     airports = MockDataService.get_airports()
@@ -68,7 +65,7 @@ def _rank_flights(
     flights: List[Dict[str, Any]]
 ) -> List[Dict[str, Any]]:
     """
-    Rank flights by price, duration, and stops.
+    Rank flights by price, duration, and number of stops.
     """
 
     weights = {
@@ -94,7 +91,7 @@ def _airport_summary(
     airport: Dict[str, Any]
 ) -> Dict[str, Any]:
     """
-    Return the relevant airport information.
+    Return relevant airport information.
     """
 
     return {
@@ -119,6 +116,7 @@ def _add_airport_information(
     }
 
     for flight in flights:
+
         origin_code = flight.get(
             "origin",
             ""
@@ -129,7 +127,10 @@ def _add_airport_information(
             ""
         ).upper()
 
-        origin_airport = airport_lookup.get(origin_code)
+        origin_airport = airport_lookup.get(
+            origin_code
+        )
+
         destination_airport = airport_lookup.get(
             destination_code
         )
@@ -147,6 +148,98 @@ def _add_airport_information(
     return flights
 
 
+def _top_flights_per_destination(
+    flights: List[Dict[str, Any]],
+    limit: int = 2
+) -> List[Dict[str, Any]]:
+    """
+    Return the top flights for each destination airport.
+
+    Example:
+
+        SEA -> HND
+        SEA -> NRT
+        SEA -> KIX
+
+    Each destination airport can contribute up to
+    `limit` flights.
+    """
+
+    grouped: Dict[str, List[Dict[str, Any]]] = {}
+
+    for flight in flights:
+
+        destination = flight.get(
+            "destination",
+            ""
+        ).upper()
+
+        grouped.setdefault(
+            destination,
+            []
+        ).append(flight)
+
+    result: List[Dict[str, Any]] = []
+
+    for destination_flights in grouped.values():
+
+        ranked = _rank_flights(
+            destination_flights
+        )
+
+        result.extend(
+            ranked[:limit]
+        )
+
+    return result
+
+
+def _top_flights_per_origin(
+    flights: List[Dict[str, Any]],
+    limit: int = 2
+) -> List[Dict[str, Any]]:
+    """
+    Return the top flights for each origin airport.
+
+    Example:
+
+        HND -> SEA
+        NRT -> SEA
+        KIX -> SEA
+
+    Each origin airport can contribute up to
+    `limit` flights.
+    """
+
+    grouped: Dict[str, List[Dict[str, Any]]] = {}
+
+    for flight in flights:
+
+        origin = flight.get(
+            "origin",
+            ""
+        ).upper()
+
+        grouped.setdefault(
+            origin,
+            []
+        ).append(flight)
+
+    result: List[Dict[str, Any]] = []
+
+    for origin_flights in grouped.values():
+
+        ranked = _rank_flights(
+            origin_flights
+        )
+
+        result.extend(
+            ranked[:limit]
+        )
+
+    return result
+
+
 @tool("Search and Rank Japan Flights")
 def search_japan_flights(
     origin: str
@@ -162,9 +255,8 @@ def search_japan_flights(
         Origin -> every Japan airport
         Every Japan airport -> Origin
 
-    The route planner can then determine whether the
-    cheapest itinerary should enter Japan through one city
-    and leave through another.
+    The route planner can use these results to determine
+    the cheapest combination of Japan entry and exit cities.
 
     Example:
 
@@ -181,7 +273,9 @@ def search_japan_flights(
     # 1. Resolve origin airport
     # --------------------------------------------------
 
-    origin_airport = _resolve_origin_airport(origin)
+    origin_airport = _resolve_origin_airport(
+        origin
+    )
 
     if not origin_airport:
         return json.dumps({
@@ -189,14 +283,20 @@ def search_japan_flights(
             "message": (
                 f"Origin airport '{origin}' was not found."
             ),
-            "outboundFlights": [],
-            "returnFlights": []
+            "outbound": {
+                "count": 0,
+                "flights": []
+            },
+            "return": {
+                "count": 0,
+                "flights": []
+            }
         })
 
     origin_code = origin_airport["code"].upper()
 
     # --------------------------------------------------
-    # 2. Find all supported Japan airports
+    # 2. Get all supported Japan airports
     # --------------------------------------------------
 
     japan_airports = _get_japan_airports()
@@ -208,8 +308,14 @@ def search_japan_flights(
             "message": (
                 "No supported Japan airports were found."
             ),
-            "outboundFlights": [],
-            "returnFlights": []
+            "outbound": {
+                "count": 0,
+                "flights": []
+            },
+            "return": {
+                "count": 0,
+                "flights": []
+            }
         })
 
     japan_codes = {
@@ -217,7 +323,9 @@ def search_japan_flights(
         for airport in japan_airports
     }
 
-    origin_codes = {origin_code}
+    origin_codes = {
+        origin_code
+    }
 
     # --------------------------------------------------
     # 3. Retrieve flights
@@ -228,7 +336,7 @@ def search_japan_flights(
     # --------------------------------------------------
     # 4. Find outbound flights
     #
-    # Origin -> Any Japan airport
+    # SEA -> ANY Japan airport
     # --------------------------------------------------
 
     outbound_flights = _find_flights(
@@ -240,7 +348,7 @@ def search_japan_flights(
     # --------------------------------------------------
     # 5. Find return flights
     #
-    # Any Japan airport -> Origin
+    # ANY Japan airport -> SEA
     # --------------------------------------------------
 
     return_flights = _find_flights(
@@ -269,23 +377,21 @@ def search_japan_flights(
     )
 
     # --------------------------------------------------
-    # 7. Rank outbound flights
+    # 7. Keep only top flights per Japan airport
     # --------------------------------------------------
 
-    ranked_outbound = _rank_flights(
-        outbound_flights
-    ) if outbound_flights else []
+    top_outbound = _top_flights_per_destination(
+        flights=outbound_flights,
+        limit=2
+    )
+
+    top_return = _top_flights_per_origin(
+        flights=return_flights,
+        limit=2
+    )
 
     # --------------------------------------------------
-    # 8. Rank return flights
-    # --------------------------------------------------
-
-    ranked_return = _rank_flights(
-        return_flights
-    ) if return_flights else []
-
-    # --------------------------------------------------
-    # 9. Return flight data
+    # 8. Return compact flight data
     # --------------------------------------------------
 
     return json.dumps({
@@ -301,12 +407,13 @@ def search_japan_flights(
         ],
 
         "outbound": {
-            "count": len(ranked_outbound),
-            "flights": ranked_outbound
+            "count": len(top_outbound),
+            "flights": top_outbound
         },
 
         "return": {
-            "count": len(ranked_return),
-            "flights": ranked_return
+            "count": len(top_return),
+            "flights": top_return
         }
     })
+

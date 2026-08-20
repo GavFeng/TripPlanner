@@ -1,49 +1,6 @@
 {
   "routes": [
     {
-      "id": "TR-TYO-KYO-001",
-      "from": "Tokyo",
-      "to": "Kyoto",
-      "options": [
-        {
-          "type": "train",
-          "name": "Tokaido Shinkansen",
-          "cost": 100,
-          "durationHours": 2.25,
-          "direct": true
-        },
-        {
-          "type": "flight",
-          "name": "Tokyo to Osaka Flight",
-          "cost": 80,
-          "durationHours": 1.25,
-          "direct": true
-        }
-      ]
-    },
-    {
-      "id": "TR-KYO-TYO-001",
-      "from": "Kyoto",
-      "to": "Tokyo",
-      "options": [
-        {
-          "type": "train",
-          "name": "Tokaido Shinkansen",
-          "cost": 100,
-          "durationHours": 2.25,
-          "direct": true
-        },
-        {
-          "type": "flight",
-          "name": "Osaka to Tokyo Flight",
-          "cost": 80,
-          "durationHours": 1.25,
-          "direct": true
-        }
-      ]
-    },
-
-    {
       "id": "TR-TYO-OSA-001",
       "from": "Tokyo",
       "to": "Osaka",
@@ -85,7 +42,34 @@
         }
       ]
     },
-
+    {
+      "id": "TR-TYO-KYO-001",
+      "from": "Tokyo",
+      "to": "Kyoto",
+      "options": [
+        {
+          "type": "train",
+          "name": "Tokaido Shinkansen",
+          "cost": 100,
+          "durationHours": 2.25,
+          "direct": true
+        }
+      ]
+    },
+    {
+      "id": "TR-KYO-TYO-001",
+      "from": "Kyoto",
+      "to": "Tokyo",
+      "options": [
+        {
+          "type": "train",
+          "name": "Tokaido Shinkansen",
+          "cost": 100,
+          "durationHours": 2.25,
+          "direct": true
+        }
+      ]
+    },
     {
       "id": "TR-KYO-OSA-001",
       "from": "Kyoto",
@@ -114,7 +98,6 @@
         }
       ]
     },
-
     {
       "id": "TR-TYO-NAR-001",
       "from": "Tokyo",
@@ -143,7 +126,6 @@
         }
       ]
     },
-
     {
       "id": "TR-OSA-NAR-001",
       "from": "Osaka",
@@ -172,7 +154,6 @@
         }
       ]
     },
-
     {
       "id": "TR-TYO-HIR-001",
       "from": "Tokyo",
@@ -201,7 +182,6 @@
         }
       ]
     },
-
     {
       "id": "TR-KYO-HIR-001",
       "from": "Kyoto",
@@ -230,7 +210,6 @@
         }
       ]
     },
-
     {
       "id": "TR-OSA-HIR-001",
       "from": "Osaka",

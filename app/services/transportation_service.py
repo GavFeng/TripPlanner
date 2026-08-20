@@ -9,11 +9,11 @@ class TransportationService:
     def find_route(
         origin: str,
         destination: str
-    ) -> Optional[Dict[str, Any]]:
+    ) -> List[Dict[str, Any]]:
         """
         Find transportation options between two cities.
+        Returns a list of option dictionaries.
         """
-
         routes = MockDataService.get_transportation_routes()
 
         origin = origin.strip().lower()
@@ -25,21 +25,7 @@ class TransportationService:
                 and
                 route.get("to", "").strip().lower() == destination
             ):
-                return route
+                # ✅ Return the options list so the calculator can iterate through it
+                return route.get("options", [])
 
-        return None
-
-    @staticmethod
-    def get_options(
-        origin: str,
-        destination: str
-    ) -> List[Dict[str, Any]]:
-        route = TransportationService.find_route(
-            origin,
-            destination
-        )
-
-        if not route:
-            return []
-
-        return route.get("options", [])
+        return []

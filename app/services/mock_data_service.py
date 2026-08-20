@@ -94,6 +94,11 @@ class MockDataService:
         data = cls._load_json("hotels.json")
 
         return data.get(city_name, [])
+    
+    @classmethod
+    def get_all_hotels(cls) -> Dict[str, Any]:
+        """Retrieve all hotels grouped by city."""
+        return cls._load_json("hotels.json")
 
     # -------------------------
     # Restaurants
@@ -118,5 +123,19 @@ class MockDataService:
         cls
     ) -> List[Dict[str, Any]]:
         data = cls._load_json("transportation.json")
-
         return data.get("routes", [])
+
+    @classmethod
+    def find_route(cls, origin: str, destination: str) -> List[Dict[str, Any]]:
+        """
+        Finds transportation options between an origin and destination city.
+        """
+        routes = cls.get_transportation_routes()
+        print(f"DEBUG: Loaded {len(routes)} routes from JSON. Searching {origin} -> {destination}")
+        for route in routes:
+            if (
+                route.get("from", "").strip().lower() == origin.strip().lower() and
+                route.get("to", "").strip().lower() == destination.strip().lower()
+            ):
+                return route.get("options", [])
+        return []

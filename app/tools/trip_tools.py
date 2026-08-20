@@ -1,5 +1,4 @@
 import json
-from typing import Any, Dict
 
 from crewai.tools import tool
 
@@ -20,38 +19,92 @@ def plan_trip(
     cities: list[str],
     days: int,
     budget: float,
-    return_to_origin: bool = True,
-    origin_city: str = "",
-    flight_cost: float = 0,
+    entry_city: str,
+    exit_city: str,
+    outbound_flight_id: str,
+    return_flight_id: str,
 ) -> str:
     """
-    Generate and evaluate possible multi-city trip routes.
+    Generate and evaluate a Japan trip using the selected
+    international flights.
 
-    The tool:
-    1. Generates valid city routes.
-    2. Calculates transportation costs.
-    3. Selects the top candidate routes.
-    4. Calculates hotel costs.
-    5. Calculates total trip costs.
-    6. Validates the budget.
-    7. Ranks the resulting trips.
+    The AI selects the outbound and return flight IDs from
+    search_japan_flights.
 
-    Args:
-        cities: Cities the traveler wants to visit.
-        days: Total number of days for the trip.
-        budget: Maximum trip budget.
-        return_to_origin: Whether the trip should return to the origin.
-        origin_city: Starting city.
-        flight_cost: Flight cost to/from the destination region.
-
-    Returns:
-        JSON string containing ranked trip options.
+    This tool is responsible for:
+    - validating the selected flights
+    - resolving flight prices
+    - generating Japan routes
+    - calculating transportation
+    - selecting hotels
+    - calculating total cost
+    - validating the budget
+    - ranking trip options
     """
+
+    # ==================================================
+    # 0. Sanitize LLM arguments
+    # ==================================================
+
+    if isinstance(cities, str): 
+        try:
+            parsed = json.loads(cities)
+            if isinstance(parsed, list):
+                cities = parsed
+            else:
+                cities = [str(parsed)]
+        except json.JSONDecodeError:
+            cities = [c.strip() for c in cities.split(",") if c.strip()]
+
+    if not isinstance(cities, list):
+        return json.dumps({
+            "success": False,
+            "message": (
+                f"cities must be a list, "
+                f"got {type(cities).__name__}"
+            )
+        })
+
+    if isinstance(days, str):
+        try:
+            days = int(days)
+        except ValueError:
+            return json.dumps({
+                "success": False,
+                "message": "days must be an integer."
+            })
+
+    if isinstance(budget, str):
+        try:
+            budget = float(budget)
+        except ValueError:
+            return json.dumps({
+                "success": False,
+                "message": "budget must be a number."
+            })
+
+    if not isinstance(outbound_flight_id, str):
+        return json.dumps({
+            "success": False,
+            "message": "outbound_flight_id must be a string."
+        })
+
+    if not isinstance(return_flight_id, str):
+        return json.dumps({
+            "success": False,
+            "message": "return_flight_id must be a string."
+        })
+
+    # ==================================================
+    # 1. Validate basic inputs
+    # ==================================================
 
     if not cities:
         return json.dumps({
             "success": False,
-            "message": "At least one destination city is required."
+            "message": (
+                "At least one destination city is required."
+            )
         })
 
     if days <= 0:
@@ -66,59 +119,210 @@ def plan_trip(
             "message": "Budget must be greater than zero."
         })
 
-    # --------------------------------------------------
-    # 1. Generate routes
-    # --------------------------------------------------
+    if not entry_city:
+        return json.dumps({
+            "success": False,
+            "message": "Entry city is required."
+        })
+
+    if not exit_city:
+        return json.dumps({
+            "success": False,
+            "message": "Exit city is required."
+        })
+
+    entry_city = entry_city.strip()
+    exit_city = exit_city.strip()
+
+    outbound_flight_id = outbound_flight_id.strip()
+    return_flight_id = return_flight_id.strip()
+
+    # ==================================================
+    # 2. Validate cities
+    # ==================================================
+
+    city_lookup = {
+        city.strip().lower(): city
+        for city in cities
+    }
+
+    if entry_city.lower() not in city_lookup:
+        return json.dumps({
+            "success": False,
+            "message": (
+                f"Entry city '{entry_city}' is not in "
+                "the requested cities."
+            )
+        })
+
+    if exit_city.lower() not in city_lookup:
+        return json.dumps({
+            "success": False,
+            "message": (
+                f"Exit city '{exit_city}' is not in "
+                "the requested cities."
+            )
+        })
+
+    # ==================================================
+    # 3. Resolve selected flights
+    # ==================================================
+
+    flights = MockDataService.get_flights()
+
+    if not isinstance(flights, list):
+        return json.dumps({
+            "success": False,
+            "message": "Flight data is unavailable."
+        })
+
+    outbound_flight = next(
+        (
+            flight
+            for flight in flights
+            if isinstance(flight, dict)
+            and flight.get("id") == outbound_flight_id
+        ),
+        None
+    )
+
+    return_flight = next(
+        (
+            flight
+            for flight in flights
+            if isinstance(flight, dict)
+            and flight.get("id") == return_flight_id
+        ),
+        None
+    )
+
+    if not outbound_flight:
+        return json.dumps({
+            "success": False,
+            "message": (
+                f"Outbound flight "
+                f"'{outbound_flight_id}' was not found."
+            )
+        })
+
+    if not return_flight:
+        return json.dumps({
+            "success": False,
+            "message": (
+                f"Return flight "
+                f"'{return_flight_id}' was not found."
+            )
+        })
+
+    # ==================================================
+    # 4. Validate flight prices
+    # ==================================================
+
+    outbound_price = outbound_flight.get("price")
+    return_price = return_flight.get("price")
+
+    if not isinstance(outbound_price, (int, float)):
+        return json.dumps({
+            "success": False,
+            "message": (
+                f"Outbound flight '{outbound_flight_id}' "
+                "does not have a valid price."
+            )
+        })
+
+    if not isinstance(return_price, (int, float)):
+        return json.dumps({
+            "success": False,
+            "message": (
+                f"Return flight '{return_flight_id}' "
+                "does not have a valid price."
+            )
+        })
+
+    # ==================================================
+    # 5. Calculate international flight cost
+    # ==================================================
+
+    flight_cost = (
+        float(outbound_price) +
+        float(return_price)
+    )
+
+    # ==================================================
+    # 6. Generate Japan routes
+    # ==================================================
 
     routes = RouteGenerator.generate_routes(
         cities=cities,
-        start_city=origin_city if origin_city else None,
-        return_to_start=return_to_origin,
+        start_city=entry_city,
+        end_city=exit_city,
+        return_to_start=False,
     )
 
     if not routes:
         return json.dumps({
             "success": False,
-            "message": "No valid routes could be generated."
+            "message": (
+                f"No valid route exists from "
+                f"{entry_city} to {exit_city}."
+            )
         })
-        
-    
 
-    # --------------------------------------------------
-    # 2. Calculate transportation
-    # --------------------------------------------------
+    # ==================================================
+    # 7. Calculate transportation
+    # ==================================================
 
     transportation_service = TransportationService()
 
     evaluated_routes = []
 
     for route_data in routes:
+        if isinstance(route_data, str):
+            continue
 
-        route = route_data["cities"]
+        if isinstance(route_data, dict):
+            route = route_data.get("cities", [])
+
+        elif isinstance(route_data, list):
+            route = route_data
+
+        else:
+            continue
+
+        if not isinstance(route, list) or not route:
+            continue
 
         result = TransportationCalculator.calculate_route(
             route=route,
             transportation_service=transportation_service,
         )
 
-        if result["valid"]:
+        if not isinstance(result, dict):
+            continue
+
+        if result.get("valid"):
+
             evaluated_routes.append({
-                **route_data,
+                "cities": route,
                 **result,
             })
+
+    # ==================================================
+    # 8. Validate transportation routes
+    # ==================================================
 
     if not evaluated_routes:
         return json.dumps({
             "success": False,
             "message": (
                 "No valid transportation routes were found "
-                "between the requested cities."
+                "between the requested Japanese cities."
             )
         })
 
-    # --------------------------------------------------
-    # 3. Select top transportation routes
-    # --------------------------------------------------
+    # ==================================================
+    # 9. Select top transportation routes
+    # ==================================================
 
     top_routes = RouteSelector.select_top_x(
         routes=evaluated_routes,
@@ -126,92 +330,239 @@ def plan_trip(
         sort_by="transport_cost",
     )
 
-    # --------------------------------------------------
-    # 4. Calculate hotels
-    # --------------------------------------------------
+    if not isinstance(top_routes, list):
+        return json.dumps({
+            "success": False,
+            "message": "Route selector returned invalid data."
+        })
+
+    # ==================================================
+    # 10. Retrieve hotels
+    # ==================================================
 
     hotels = MockDataService.get_all_hotels()
 
-    # Temporary/simple hotel handling.
-    #
-    # This will eventually be replaced with hotel ranking
-    # based on city, budget, rating, and preferences.
+    if not isinstance(hotels, dict):
+        hotels = {}
+
     trips = []
 
-    for route in top_routes:
+    # ==================================================
+    # 11. Evaluate each route
+    # ==================================================
+
+    for route_data in top_routes:
+        if isinstance(route_data, str):
+            try:
+                route_data = json.loads(route_data)
+            except json.JSONDecodeError:
+                continue
+
+        if not isinstance(route_data, dict):
+            continue
+
+        route = route_data.get("cities", [])
+
+        if not isinstance(route, list) or not route:
+            continue
+
+        transport_cost = route_data.get(
+            "transport_cost",
+            0
+        )
+
+        if not isinstance(transport_cost, (int, float)):
+            continue
 
         hotel_results = []
-        hotel_cost = 0
+        hotel_cost = 0.0
 
-        # Simple equal-day allocation for now.
-        city_days = days // len(cities)
+        # ----------------------------------------------
+        # Allocate days
+        # ----------------------------------------------
 
-        remaining_days = days - (city_days * len(cities))
+        city_count = len(route)
 
-        for index, city in enumerate(cities):
+        city_days = days // city_count
+        remaining_days = days % city_count
+
+        # ----------------------------------------------
+        # Calculate hotel costs
+        # ----------------------------------------------
+
+        for index, city in enumerate(route):
 
             assigned_days = city_days
 
-            if index == len(cities) - 1:
+            if index == city_count - 1:
                 assigned_days += remaining_days
 
             city_hotels = hotels.get(city, [])
 
-            if not city_hotels:
+            if isinstance(city_hotels, str):
+                city_hotels = []
+
+            if isinstance(city_hotels, dict):
+                city_hotels = [city_hotels]
+
+            if not isinstance(city_hotels, list):
+                city_hotels = []
+
+            valid_hotels = [
+                hotel for hotel in city_hotels
+                if isinstance(hotel, dict)
+                and isinstance(hotel.get("pricePerNight"), (int, float))
+            ]
+
+            if not valid_hotels:
                 continue
 
             selected_hotel = min(
-                city_hotels,
+                valid_hotels,
                 key=lambda hotel: hotel["pricePerNight"]
             )
 
-            hotel_result = HotelCalculator.calculate_city_cost(
-                selected_hotel,
-                assigned_days,
+            hotel_result = (
+                HotelCalculator.calculate_city_cost(
+                    selected_hotel,
+                    assigned_days,
+                )
             )
 
-            hotel_results.append(hotel_result)
-            hotel_cost += hotel_result["total_cost"]
+            if not isinstance(hotel_result, dict):
+                continue
 
-        # --------------------------------------------------
-        # 5. Calculate total trip cost
-        # --------------------------------------------------
+            total_hotel_cost = hotel_result.get(
+                "total_cost",
+                0
+            )
+
+            if not isinstance(
+                total_hotel_cost,
+                (int, float)
+            ):
+                continue
+
+            hotel_results.append(hotel_result)
+
+            hotel_cost += float(total_hotel_cost)
+
+        # ----------------------------------------------
+        # Calculate total trip cost
+        # ----------------------------------------------
 
         cost = TripCostCalculator.calculate(
             flight_cost=flight_cost,
-            transportation_cost=route["transport_cost"],
+            transportation_cost=float(
+                transport_cost
+            ),
             hotel_cost=hotel_cost,
         )
 
-        # --------------------------------------------------
-        # 6. Validate budget
-        # --------------------------------------------------
+        if not isinstance(cost, dict):
+            continue
+
+        if "total_cost" not in cost:
+            continue
+
+        # ----------------------------------------------
+        # Budget validation
+        # ----------------------------------------------
 
         budget_result = BudgetValidator.validate(
             total_cost=cost["total_cost"],
             budget=budget,
         )
 
+        if not isinstance(budget_result, dict):
+            budget_result = {}
+
+        # ----------------------------------------------
+        # Build trip
+        # ----------------------------------------------
+
         trips.append({
+            "entryCity": entry_city,
+            "exitCity": exit_city,
+
             "route": route,
+
+            "outboundFlight": {
+                "id": outbound_flight.get("id"),
+                "airline": outbound_flight.get("airline"),
+                "origin": outbound_flight.get("origin"),
+                "destination": outbound_flight.get(
+                    "destination"
+                ),
+                "price": outbound_price,
+            },
+
+            "returnFlight": {
+                "id": return_flight.get("id"),
+                "airline": return_flight.get("airline"),
+                "origin": return_flight.get("origin"),
+                "destination": return_flight.get(
+                    "destination"
+                ),
+                "price": return_price,
+            },
+
+            "flightCost": flight_cost,
+
             "hotels": hotel_results,
+
             **cost,
             **budget_result,
         })
 
-    # --------------------------------------------------
-    # 7. Rank trips
-    # --------------------------------------------------
+    # ==================================================
+    # 12. Validate generated trips
+    # ==================================================
+
+    if not trips:
+        return json.dumps({
+            "success": False,
+            "message": (
+                "No valid trip options could be generated."
+            )
+        })
+
+    # ==================================================
+    # 13. Rank trips
+    # ==================================================
 
     ranked_trips = TripRanker.rank(
         trips=trips,
         budget=budget,
     )
 
+    if not isinstance(ranked_trips, list):
+        return json.dumps({
+            "success": False,
+            "message": "Trip ranker returned invalid data."
+        })
+
+    # ==================================================
+    # 14. Return result
+    # ==================================================
+
     return json.dumps({
         "success": True,
+
         "budget": budget,
         "days": days,
+
+        "entryCity": entry_city,
+        "exitCity": exit_city,
+
+        "selectedFlights": {
+            "outbound": outbound_flight_id,
+            "return": return_flight_id,
+        },
+
+        "flightCost": flight_cost,
+
         "count": len(ranked_trips),
+
         "trips": ranked_trips,
     })
