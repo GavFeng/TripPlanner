@@ -1,6 +1,6 @@
 {
   "origin": "SEA",
-  "cities": ["Tokyo", "Osaka"],
+  "cities": ["Tokyo", "Kyoto", "Osaka"],
   "days": 7,
   "budget": 3000,
   "returnToOrigin": true

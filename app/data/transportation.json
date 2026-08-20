@@ -29,14 +29,14 @@
         {
           "type": "train",
           "name": "Tokaido Shinkansen",
-          "cost": 100,
+          "cost": 110,
           "durationHours": 2.5,
           "direct": true
         },
         {
           "type": "flight",
           "name": "Osaka to Tokyo Flight",
-          "cost": 75,
+          "cost": 85,
           "durationHours": 1.25,
           "direct": true
         }
@@ -50,7 +50,7 @@
         {
           "type": "train",
           "name": "Tokaido Shinkansen",
-          "cost": 100,
+          "cost": 90,
           "durationHours": 2.25,
           "direct": true
         }

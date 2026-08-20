@@ -321,23 +321,7 @@ def plan_trip(
         })
 
     # ==================================================
-    # 9. Select top transportation routes
-    # ==================================================
-
-    top_routes = RouteSelector.select_top_x(
-        routes=evaluated_routes,
-        top_x=5,
-        sort_by="transport_cost",
-    )
-
-    if not isinstance(top_routes, list):
-        return json.dumps({
-            "success": False,
-            "message": "Route selector returned invalid data."
-        })
-
-    # ==================================================
-    # 10. Retrieve hotels
+    # 9. Retrieve hotels
     # ==================================================
 
     hotels = MockDataService.get_all_hotels()
@@ -348,10 +332,10 @@ def plan_trip(
     trips = []
 
     # ==================================================
-    # 11. Evaluate each route
+    # 10. Evaluate each route
     # ==================================================
 
-    for route_data in top_routes:
+    for route_data in evaluated_routes:
         if isinstance(route_data, str):
             try:
                 route_data = json.loads(route_data)
@@ -443,7 +427,11 @@ def plan_trip(
             ):
                 continue
 
-            hotel_results.append(hotel_result)
+            hotel_results.append({
+                **hotel_result,
+                "city": city,
+                "days": assigned_days,
+            })
 
             hotel_cost += float(total_hotel_cost)
 
@@ -516,7 +504,7 @@ def plan_trip(
         })
 
     # ==================================================
-    # 12. Validate generated trips
+    # 11. Validate generated trips
     # ==================================================
 
     if not trips:
@@ -528,13 +516,14 @@ def plan_trip(
         })
 
     # ==================================================
-    # 13. Rank trips
+    # 12. Rank trips
     # ==================================================
 
     ranked_trips = TripRanker.rank(
         trips=trips,
         budget=budget,
     )
+    
 
     if not isinstance(ranked_trips, list):
         return json.dumps({
@@ -542,10 +531,26 @@ def plan_trip(
             "message": "Trip ranker returned invalid data."
         })
 
+    best_trip = ranked_trips[0]
     # ==================================================
-    # 14. Return result
+    # 13. Return result
     # ==================================================
 
+
+
+    print("Routes generated:", len(routes))
+    print("Routes evaluated:", len(evaluated_routes))
+    print("Trips generated:", len(trips))
+
+    for trip in trips:
+        print(
+            "TRIP:",
+            trip["route"],
+            "cost:",
+            trip.get("total_cost"),
+            "within budget:",
+            trip.get("within_budget"),
+        )
     return json.dumps({
         "success": True,
 
@@ -562,7 +567,5 @@ def plan_trip(
 
         "flightCost": flight_cost,
 
-        "count": len(ranked_trips),
-
-        "trips": ranked_trips,
+        "bestTrip": best_trip,
     })

@@ -25,7 +25,6 @@
       "food"
     ]
   },
-
   "Osaka": {
     "region": "Kansai",
     "description": "Food and entertainment...",
@@ -36,6 +35,54 @@
       "nightlife",
       "shopping",
       "entertainment"
+    ]
+  },
+  "Hiroshima": {
+    "region": "Chugoku",
+    "description": "Historical and coastal city...",
+    "budgetLevel": "moderate",
+    "recommendedDays": 2,
+    "interests": [
+      "history",
+      "culture",
+      "peace parks",
+      "food"
+    ]
+  },
+  "Sapporo": {
+    "region": "Hokkaido",
+    "description": "Northern hub for food and snow...",
+    "budgetLevel": "moderate",
+    "recommendedDays": 3,
+    "interests": [
+      "food",
+      "nature",
+      "winter sports",
+      "beer"
+    ]
+  },
+  "Fukuoka": {
+    "region": "Kyushu",
+    "description": "Vibrant coastal hub known for street food...",
+    "budgetLevel": "moderate",
+    "recommendedDays": 2,
+    "interests": [
+      "food",
+      "shopping",
+      "coastal views",
+      "history"
+    ]
+  },
+  "Nara": {
+    "region": "Kansai",
+    "description": "Ancient capital filled with historic temples and deer parks...",
+    "budgetLevel": "moderate",
+    "recommendedDays": 1,
+    "interests": [
+      "history",
+      "temples",
+      "nature",
+      "culture"
     ]
   }
 }

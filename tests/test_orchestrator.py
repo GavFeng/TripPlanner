@@ -12,10 +12,12 @@ def run_orchestrator_test():
         "origin": "SEA",
         "cities": [
             "Tokyo",
+            "Kyoto",
+            "Hiroshima",
             "Osaka"
         ],
-        "days": 7,
-        "budget": 3000,
+        "days": 10,
+        "budget": 3500,
         "returnToOrigin": True
     }
 
@@ -39,7 +41,7 @@ def run_orchestrator_test():
             "- Visit Tokyo and Osaka.\n"
             "- Last 7 days.\n"
             "- Return to SEA.\n"
-            "- Stay within the $3,000 budget if possible.\n\n"
+            "- Stay within the $3,500 budget if possible.\n\n"
 
             "Let the planning tool determine the best route and "
             "international entry and departure airports. Do not "

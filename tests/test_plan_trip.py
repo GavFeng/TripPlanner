@@ -12,7 +12,7 @@ def run_test():
     print("=" * 70)
 
     test_args = {
-        "cities": ["Tokyo", "Osaka"],
+        "cities": ["Tokyo", "Kyoto", "Osaka"],
         "days": 7,
         "budget": 3000.0,
         "entry_city": "Tokyo",
